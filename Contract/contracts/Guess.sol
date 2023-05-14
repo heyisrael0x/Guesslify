@@ -100,7 +100,7 @@ contract Guess is VRFConsumerBaseV2 {
         emit GameFunded(msg.sender, msg.value);
     }
 
-    function withdrawGameWallet() public {
+    function withdrawGameBalance() public {
         if (msg.sender != owner) {
             revert Guess__NotOwner();
         }
