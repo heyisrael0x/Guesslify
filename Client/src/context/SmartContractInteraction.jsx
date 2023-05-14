@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { ethers, providers } from "../utils/ethers-5.1.esm.min.js";
 import { contractAddress, ContractAbi } from "../utils/constants.js";
+import { GameBody } from "../components/index.js";
 
-export const ContractContext = React.createContext();
+export const ContractContext = createContext();
 
 const { ethereum } = window;
 
@@ -12,17 +13,15 @@ const getSmartContract = () => {
   const contract = new ethers.Contract(contractAddress, ContractAbi, signer);
   console.log(provider, signer, contract);
 };
-export const ContractProvider = ({ children }) => {
+export const ContractProvider = () => {
   // const [state, setState] = useState("12");
   const someValue = "Hey bro";
-  useEffect(() => {
-    getSmartContract();
-    alert("Hello World!!");
-  }, []);
-  console.log("hi");
+  // useEffect(() => {
+  //   getSmartContract();
+  // }, []);
   return (
-    <ContractContext.Provider value={{ someValue }}>
-      {children}
+    <ContractContext.Provider value={ someValue }>
+      <GameBody />
     </ContractContext.Provider>
   );
 };

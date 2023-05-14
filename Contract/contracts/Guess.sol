@@ -15,6 +15,8 @@ error Guess__GameFundFailedSendEnough();
 error Guess_GameGotNoMoney();
 error Guess_GameStartedAlready();
 error Guess__GameHasStartedYouCannotChecktheLuckyNumber();
+error Guess__BalanceNotUpToAmount();
+error Guess__ThereIsAnActivePlayerYouCannotWithdraw();
 
 contract Guess is VRFConsumerBaseV2 {
     /* Type declarations */
@@ -64,8 +66,10 @@ contract Guess is VRFConsumerBaseV2 {
     mapping(address => uint256) private numberofTrialsUsed;
 
     /* Array */
-    address[] public allTimeWinners;
-    address[] public allTimeLosers;
+    address[] private activeGamers;
+
+    // address[] public allTimeWinners;
+    // address[] public allTimeLosers;
 
     constructor(
         address vrfCoordinatorV2,
@@ -96,6 +100,16 @@ contract Guess is VRFConsumerBaseV2 {
         emit GameFunded(msg.sender, msg.value);
     }
 
+    function withdrawGameWallet() public {
+        if (msg.sender != owner) {
+            revert Guess__NotOwner();
+        }
+        if (activeGamers.length > 0) {
+            revert Guess__ThereIsAnActivePlayerYouCannotWithdraw();
+        }
+        payable(msg.sender).transfer(gameBalance);
+    }
+
     function fundGameWallet() public payable {
         if (msg.value <= 0) {
             revert Guess__WalletFundFailedSendEnough();
@@ -105,15 +119,18 @@ contract Guess is VRFConsumerBaseV2 {
         emit GamerWalletFunded(msg.sender, msg.value);
     }
 
-    function withdrawWalletFunds() public {
+    function withdrawWalletFunds(uint256 amount) public {
         if (gamersWalletBalance[msg.sender] <= 0) {
             revert Guess__NoBalanceToWithdraw();
         }
-        uint256 amountToWithdraw = gamersWalletBalance[msg.sender];
+        if (amount > gamersWalletBalance[msg.sender]) {
+            revert Guess__BalanceNotUpToAmount();
+        }
+        // uint256 amountToWithdraw = gamersWalletBalance[msg.sender];
         gamersWalletBalance[msg.sender] = 0;
-        payable(msg.sender).transfer(amountToWithdraw);
+        payable(msg.sender).transfer(amount);
 
-        emit WalletFundsWithdrawn(msg.sender, amountToWithdraw);
+        emit WalletFundsWithdrawn(msg.sender, amount);
     }
 
     function startGame(bytes calldata /* performData */) external payable {
@@ -129,6 +146,7 @@ contract Guess is VRFConsumerBaseV2 {
         if (gameState[msg.sender] == playerGameState.GAMESTARTED) {
             revert Guess_GameStartedAlready();
         }
+        activeGamers.push(msg.sender);
         numberofTrialsUsed[msg.sender] = i_numberOfTrials;
         gameState[msg.sender] = playerGameState.GAMESTARTED;
         gamersWalletBalance[msg.sender] -= msg.value;
@@ -167,17 +185,22 @@ contract Guess is VRFConsumerBaseV2 {
                 uint256 value = startGameValue[msg.sender];
                 startGameValue[msg.sender] = 0;
                 callCount[msg.sender] = 0;
-                allTimeWinners.push(msg.sender);
+                for (uint i = 0; i < activeGamers.length; i++) {
+                    if (activeGamers[i] == msg.sender) {
+                        delete activeGamers[i];
+                        break;
+                    }
+                }
+                // allTimeWinners.push(msg.sender);
                 gamersWalletBalance[msg.sender] += (value * 2);
                 gameBalance -= (value * 2);
-                
             } else if (!isCorrect) {
                 if (callCount[msg.sender] == i_numberOfTrials) {
                     gameState[msg.sender] = playerGameState.GAMEENDED;
                     uint256 value = startGameValue[msg.sender];
                     startGameValue[msg.sender] = 0;
                     callCount[msg.sender] = 0;
-                    allTimeLosers.push(msg.sender);
+                    // allTimeLosers.push(msg.sender);
                     gamersWalletBalance[msg.sender] += ((value) / 2);
                     gameBalance -= ((value) / 2);
                 }
@@ -186,8 +209,8 @@ contract Guess is VRFConsumerBaseV2 {
         }
     }
 
-    // this functions get called if
-    // someone sends money to this contract outside it!!!
+    // this functions get called if someone
+    // sends money to this contract outside of it!!!
     receive() external payable {
         DonateToGame();
     }
@@ -207,7 +230,7 @@ contract Guess is VRFConsumerBaseV2 {
     }
 
     function getLuckyNumber() public view returns (uint256) {
-        if(gameState[msg.sender] == playerGameState.GAMESTARTED){
+        if (gameState[msg.sender] == playerGameState.GAMESTARTED) {
             revert Guess__GameHasStartedYouCannotChecktheLuckyNumber();
         }
         return i_luckyNumber[msg.sender];
@@ -232,7 +255,8 @@ contract Guess is VRFConsumerBaseV2 {
     function getNumberOfTrialsUsed() public view returns (uint256) {
         return numberofTrialsUsed[msg.sender];
     }
-    function getstartGameValue() public view returns(uint256){
+
+    function getstartGameValue() public view returns (uint256) {
         return startGameValue[msg.sender];
     }
 }

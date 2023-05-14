@@ -1,7 +1,13 @@
 import { RxCross2 } from "react-icons/rx";
 // import { WithdrawModal } from ".";
+import { useState } from "react";
 
 const WithdrawModal = ({ setWithdrawModal, balance }) => {
+  const [value, setValue] = useState(balance);
+  console.log(value);
+  const handleChange = (e) => {
+    setValue(Math.max(Number(e.target.value), ""))
+  };
   return (
     <>
       <div
@@ -15,7 +21,7 @@ const WithdrawModal = ({ setWithdrawModal, balance }) => {
           className="rounded-xl p-5 eth-card flex flex-col relative"
         >
           <div className="flex  items-center justify-between">
-            <label for="" className="text-white">
+            <label className="text-white">
               Withdraw Proceeds:
             </label>
             <div
@@ -30,9 +36,11 @@ const WithdrawModal = ({ setWithdrawModal, balance }) => {
             <input
               type="number"
               name="fundAmount"
-              value={balance}
+              value={value}
               placeholder="Enter amount"
               className="numInput white-glassmorphism rounded-sm my-2 p-3 outline-none"
+              onChange={handleChange}
+              min="0"
             />
             <button
               type="button"
