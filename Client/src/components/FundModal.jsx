@@ -1,10 +1,18 @@
 import { RxCross2 } from "react-icons/rx";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ContractContext } from "../context/SmartContractInteraction";
 
 const FundModal = ({ setFundModal }) => {
-  const [value, setValue] = useState("");
+  const { fundPlayersWallet, setFundValue, fundValue } =
+    useContext(ContractContext);
+
   const handleChange = (e) => {
-    setValue(Math.max(Number(e.target.value), ""));
+    setFundValue(Math.max(Number(e.target.value), 0));
+    console.log(fundValue);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fundPlayersWallet();
   };
   return (
     <>
@@ -28,24 +36,27 @@ const FundModal = ({ setFundModal }) => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-center items-center"
+          >
             <input
               type="number"
               name="fundAmount"
               placeholder="Enter amount"
-              value={value}
+              value={fundValue}
               className="numInput white-glassmorphism rounded-sm my-2 p-3 outline-none"
-              min="0"
+              // min="0"
               onChange={handleChange}
             />
             <button
-              type="button"
-              onClick={() => {}}
+              type="submit"
+              onClick={handleSubmit}
               className="flex white-glassmorphism justify-center items-center p-3 px-4 mr-2 rounded-lg cursor-pointer"
             >
               <p className="text-white text-base font-meduim">Fund</p>
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </>

@@ -1,18 +1,16 @@
+import { ethers } from "../utils/ethers-5.1.esm.min.js";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FundModal } from "./";
 import { WithdrawModal } from "./";
 import { ContractContext } from "../context/SmartContractInteraction";
 
 const GameBody = () => {
-  const someValue = useContext(ContractContext);
-  console.log(someValue);
+  const { balance } = useContext(ContractContext);
   const [fundModal, setFundModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
-  const [balance, setBalance] = useState("2.45");
-  console.log(fundModal);
-  console.log(withdrawModal);
+  const parsedBalance = parseInt(balance) / Math.pow(10, 18);
 
   const Input = ({ placeholder, name, type, value, handleChange }) => (
     <input
@@ -32,7 +30,10 @@ const GameBody = () => {
     <>
       {fundModal && <FundModal setFundModal={setFundModal} />}
       {withdrawModal && (
-        <WithdrawModal setWithdrawModal={setWithdrawModal} balance={balance} />
+        <WithdrawModal
+          setWithdrawModal={setWithdrawModal}
+          balance={parsedBalance}
+        />
       )}
       <div className="w-full flex justify-ceter font-epilogue">
         <div className="flex w-full flex-col md:flex-row items-center justify-between md:p-5 py-12 px-4">
@@ -48,7 +49,7 @@ const GameBody = () => {
                 <div className="mb-3 flex flex-col justify-center items-center">
                   <p className="text-white font-light text-sm -m-1">Balance:</p>
                   <p className="text-white font-semibold text-xl">
-                    {balance}ETH
+                    {Number(parsedBalance) + Number(0.0)}ETH
                   </p>
                 </div>
                 <div className="flex">

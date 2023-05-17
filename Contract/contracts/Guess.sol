@@ -127,7 +127,7 @@ contract Guess is VRFConsumerBaseV2 {
             revert Guess__BalanceNotUpToAmount();
         }
         // uint256 amountToWithdraw = gamersWalletBalance[msg.sender];
-        gamersWalletBalance[msg.sender] = 0;
+        gamersWalletBalance[msg.sender] -= amount;
         payable(msg.sender).transfer(amount);
 
         emit WalletFundsWithdrawn(msg.sender, amount);

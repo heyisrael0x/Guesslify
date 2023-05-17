@@ -1,12 +1,18 @@
 import { RxCross2 } from "react-icons/rx";
 // import { WithdrawModal } from ".";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { ContractContext } from "../context/SmartContractInteraction";
 
 const WithdrawModal = ({ setWithdrawModal, balance }) => {
-  const [value, setValue] = useState(balance);
-  console.log(value);
+  const { withdrawValue, setWithdrawValue, withdrawPlayersBalance } =
+    useContext(ContractContext);
   const handleChange = (e) => {
-    setValue(Math.max(Number(e.target.value), ""))
+    setWithdrawValue(Math.max(Number(e.target.value), ""));
+    console.log(withdrawValue);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    withdrawPlayersBalance();
   };
   return (
     <>
@@ -21,9 +27,7 @@ const WithdrawModal = ({ setWithdrawModal, balance }) => {
           className="rounded-xl p-5 eth-card flex flex-col relative"
         >
           <div className="flex  items-center justify-between">
-            <label className="text-white">
-              Withdraw Proceeds:
-            </label>
+            <label className="text-white">Withdraw Proceeds:</label>
             <div
               onClick={() => setWithdrawModal(false)}
               className="h-7 w-7 cursor-pointer bg-[#CB0000] rounded-full border-2 border-[#CB0000] flex top-0 right-0 absolute mr-2 mt-2 items-center justify-center"
@@ -32,11 +36,14 @@ const WithdrawModal = ({ setWithdrawModal, balance }) => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center items-center">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-center items-center"
+          >
             <input
               type="number"
               name="fundAmount"
-              value={value}
+              value={withdrawValue}
               placeholder="Enter amount"
               className="numInput white-glassmorphism rounded-sm my-2 p-3 outline-none"
               onChange={handleChange}
@@ -44,12 +51,12 @@ const WithdrawModal = ({ setWithdrawModal, balance }) => {
             />
             <button
               type="button"
-              onClick={() => {}}
+              onClick={handleSubmit}
               className="flex white-glassmorphism justify-center items-center p-3 px-4 mr-2 rounded-lg cursor-pointer"
             >
               <p className="text-white text-base font-meduim">Withdraw</p>
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </>
