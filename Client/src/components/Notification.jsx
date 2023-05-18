@@ -1,19 +1,23 @@
-import { useState, useEffect } from "react";
+import { ContractContext } from "../context/SmartContractInteraction";
+import { useState, useEffect, useContext } from "react";
 
-const Notification = ({ color, text, time, notificationState }) => {
-  console.log(notificationState)
-  const [notificationStat, setnotificationState] = useState(initialState);
+const Notification = ({}) => {
+  const { color, text, /*time,*/ notification, setNotification } =
+    useContext(ContractContext);
+  console.log(notification);
+  // const [notificationState, setnotificationState] = useState(true);
+  // setnotificationState(notification);
   useEffect(() => {
-    if (notificationState == true) {
+    if (notification == true) {
       setTimeout(() => {
-        notificationState = false
-      }, time * 1000 || 7000);
+        setNotification(false);
+      }, 7000);
     }
-  }, [notificationState]);
+  }, [notification]);
   console.log(`bg-${color}`);
   return (
     <>
-      {notificationState && (
+      {notification && (
         <div className="flex absolute z-30 w-full p-3 top-0 notification-slidein sm justify-end">
           <div
             className={`flex border-2 h-[5.5rem] rounded-[25px] bg-${color} text-white w-full sm:w-max sm:p-5 items-center justify-center`}
@@ -21,7 +25,6 @@ const Notification = ({ color, text, time, notificationState }) => {
           >
             <div>
               {text}
-              {time}
             </div>
           </div>
         </div>

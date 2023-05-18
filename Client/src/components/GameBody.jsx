@@ -5,6 +5,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { FundModal } from "./";
 import { WithdrawModal } from "./";
 import { ContractContext } from "../context/SmartContractInteraction";
+import { Notification } from "./";
 
 const GameBody = () => {
   const { balance } = useContext(ContractContext);
@@ -35,6 +36,7 @@ const GameBody = () => {
           balance={parsedBalance}
         />
       )}
+      <Notification />
       <div className="w-full flex justify-ceter font-epilogue">
         <div className="flex w-full flex-col md:flex-row items-center justify-between md:p-5 py-12 px-4">
           <div className="flex flex-1 justify-start items-center flex-col">
@@ -43,7 +45,7 @@ const GameBody = () => {
                 <div className="w-10 h-10 rounded-full border-2 border-white flex justify-center items-center">
                   <SiEthereum fontSize={21} color="#fff" />
                 </div>
-                <BsInfoCircle fontSize={17} color="#fff" />
+                {/* <BsInfoCircle fontSize={17} color="#fff" /> */}
               </div>
               <div className="w-full flex flex-col items-center">
                 <div className="mb-3 flex flex-col justify-center items-center">
@@ -74,7 +76,7 @@ const GameBody = () => {
                 </div>
               </div>
             </div>
-            {/* <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center white-glassmorphism"></div> */}
+            <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center white-glassmorphism"></div>
           </div>
 
           <div className="flex flex-col flex-1 items-center justify-start w-full mt-10">

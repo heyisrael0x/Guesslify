@@ -124,6 +124,7 @@
 .notification-slidein {
   /* opacity: 0; */
   animation: notification-slidein 7s forwards ease-in-out;
+  /* animation-duration: ; */
   /* transform: translateY(200%); */
 }
 @keyframes notification-slidein {

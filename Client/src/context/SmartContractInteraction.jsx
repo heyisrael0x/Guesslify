@@ -18,6 +18,10 @@ export const ContractProvider = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [withdrawValue, setWithdrawValue] = useState(balance);
   const [fundValue, setFundValue] = useState("");
+  const [color, setColor] = useState("");
+  const [text, setText] = useState("");
+  const [notification, setNotification] = useState(false);
+  console.log(notification);
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert("No Metamask Wallet Found");
@@ -46,9 +50,18 @@ export const ContractProvider = () => {
         value: parsedAmount,
       });
       await txResponse.wait();
+      setColor("green");
+      setText("Your wallet was funded succesfully");
+      setNotification(true);
+      setTimeout
       location.href = location.href;
     } catch (error) {
-      alert("Send Failed Please Try Again");
+      if (error) {
+        setColor("red");
+        setText("Failed to fund your wallet");
+        setNotification(true);
+      }
+      // alert("Send Failed Please Try Again");
       console.log(error);
     }
   };
@@ -82,6 +95,11 @@ export const ContractProvider = () => {
         withdrawPlayersBalance,
         withdrawValue,
         setWithdrawValue,
+        color,
+        text,
+        // time,
+        notification,
+        setNotification,
       }}
     >
       <GameBody />
