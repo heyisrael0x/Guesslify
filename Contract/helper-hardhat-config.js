@@ -31,11 +31,15 @@ const networkConfig = {
     randomNumberRange: "10",
     numberOfTrials: "3",
     value: ethers.utils.parseEther("5"),
-  }
+  },
 };
 const developmentChains = ["localhost", "hardhat", "ganache"];
+const FRONT_END_ADDRESSES_FILE = "../Client/src/utils/address.json";
+const FRONT_END_ABI_FILE = "../Client/src/utils/abi.json";
 
 module.exports = {
   networkConfig,
   developmentChains,
+  FRONT_END_ADDRESSES_FILE,
+  FRONT_END_ABI_FILE,
 };

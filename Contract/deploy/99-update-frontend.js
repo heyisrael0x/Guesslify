@@ -1,9 +1,13 @@
 const { ethers, network } = require("hardhat");
 // const {  } = require("fs");
-const { fs } = require("fs");
+const fs = require("fs-extra");
+const {
+  FRONT_END_ABI_FILE,
+  FRONT_END_ADDRESSES_FILE,
+} = require("../helper-hardhat-config");
 
-const FRONT_END_ADDRESSES_FILE = "../../Client/src/utils/address.json";
-const FRONT_END_ABI_FILE = "../../Client/src/utils/abi.json";
+// const FRONT_END_ADDRESSES_FILE = "../../Client/src/utils/address.json";
+// const FRONT_END_ABI_FILE = "../../Client/src/utils/abi.json";
 
 module.exports = async () => {
   if (true) {
@@ -13,7 +17,7 @@ module.exports = async () => {
     console.log("updating frontend....");
   }
 };
-const updateAbi = async () => {
+async function updateAbi() {
   console.log("abi wroting");
   const guess2Win = await ethers.getContract("Guess");
   console.log(`guess2Win: ${guess2Win}`);
@@ -22,10 +26,10 @@ const updateAbi = async () => {
     guess2Win.interface.format(ethers.utils.FormatTypes.json)
   );
   console.log("abi done");
-};
- function updateContractAddress() {
+}
+async function updateContractAddress() {
   console.log("address wroting");
-  const guess2Win = ethers.getContract("Guess");
+  const guess2Win = await ethers.getContract("Guess");
   console.log(guess2Win.address);
   const chainId = network.config.chainId.toString();
   console.log(chainId);
