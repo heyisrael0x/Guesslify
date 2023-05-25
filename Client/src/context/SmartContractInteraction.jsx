@@ -1,4 +1,4 @@
-import { useWeb3Contract, useMoralis } from "react-moralis";
+import { useWeb3Contract } from "react-moralis";
 import React, { useState, useEffect, createContext } from "react";
 import { ethers, providers } from "../utils/ethers-5.1.esm.min.js";
 import { contractAddress, contractAbi } from "../utils/index.js";
@@ -15,9 +15,7 @@ const getSmartContract = () => {
   return contract;
 };
 export const ContractProvider = () => {
-  const { chainId: chainIdHex } = useMoralis();
-  console.log(parseInt(chainIdHex));
-  const [balance, setBalance] = useState("");
+  const [balance, setBalance] = useState("2");
   const [currentAccount, setCurrentAccount] = useState("");
   const [withdrawValue, setWithdrawValue] = useState(balance);
   const [fundValue, setFundValue] = useState("");
@@ -25,21 +23,15 @@ export const ContractProvider = () => {
   const [text, setText] = useState("");
   const [notification, setNotification] = useState(false);
   console.log(notification);
-  // const connectWallet = async () => {
-  //   try {
-  //     if (!ethereum) return alert("No Metamask Wallet Found");
-  //     const accounts = await ethereum.request({
-  //       method: "eth_requestAccounts",
-  //     });
-  //     setCurrentAccount(accounts[0]);
-  //     alert("wallet Connected Successfully🚀.");
-  //   } catch (error) {
-  //     if (error.message.includes("rejected")) {
-  //       alert("You rejected the transaction");
-  //     }
-  //     console.log(error);
-  //   }
-  // };
+
+  const chainId = parseInt(window.ethereum.chainId);
+  const guesslifyAddress =
+    chainId in contractAddress ? contractAddress[chainId][0] : null;
+  const { runContractFunction: fundGameWallet } = useWeb3Contract({
+    abi: contractAbi,
+    contractAddress: guesslifyAddress,
+  });
+
   const playerBalance = async () => {
     const contract = getSmartContract();
     const userBalance = await contract.getGamersWalletBalance();
@@ -84,7 +76,7 @@ export const ContractProvider = () => {
   };
   useEffect(() => {
     getSmartContract();
-    playerBalance();
+    // playerBalance();
     // connectWallet();
   }, []);
   return (

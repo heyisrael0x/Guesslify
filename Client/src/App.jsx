@@ -39,12 +39,10 @@ const ethereumClient = new EthereumClient(wagmiConfig, chains);
 export default function App({ routes }) {
   return (
     <>
-      <MoralisProvider initializeOnMount={false}>
         <WagmiConfig config={wagmiConfig}>
           <RouterProvider router={router} />
         </WagmiConfig>
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-      </MoralisProvider>
     </>
   );
 }
