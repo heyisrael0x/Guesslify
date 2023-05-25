@@ -12,10 +12,18 @@ const {
 module.exports = async () => {
   if (true) {
     console.log("updating frontend....");
-    updateContractAddress();
-    updateAbi();
+    // updateContractAddress();
+    // updateAbi();
     console.log("updating frontend....");
   }
+  // const { ethers } = require("hardhat");
+  // console.log("started");
+  // const wallet = ethers.Wallet.createRandom();
+  // const address = wallet.address;
+  // console.log(wallet);
+  // console.log(address);
+  // const provider = ethers.getDefaultProvider('ropsten')
+  // console.log(provider)
 };
 async function updateAbi() {
   console.log("abi wroting");

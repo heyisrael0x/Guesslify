@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import router from "./routes";
 import "./App.css";
-import { Navbar, Content, Footer } from "./components/index";
 import { MoralisProvider } from "react-moralis";
 import {
   EthereumClient,
@@ -23,6 +22,7 @@ import {
   sepolia,
   goerli,
   hardhat,
+  bscTestnet
 } from "wagmi/chains";
 
 const chains = [hardhat];

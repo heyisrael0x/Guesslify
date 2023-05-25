@@ -1,7 +1,7 @@
-import {  } from "react-moralis";
+import { useWeb3Contract, useMoralis } from "react-moralis";
 import React, { useState, useEffect, createContext } from "react";
 import { ethers, providers } from "../utils/ethers-5.1.esm.min.js";
-import { contractAddress, ContractAbi } from "../utils/constants.js";
+import { contractAddress, contractAbi } from "../utils/index.js";
 import { GameBody } from "../components/index.js";
 
 export const ContractContext = createContext();
@@ -11,10 +11,12 @@ const { ethereum } = window;
 const getSmartContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
-  const contract = new ethers.Contract(contractAddress, ContractAbi, signer);
+  const contract = new ethers.Contract(contractAddress, contractAbi, signer);
   return contract;
 };
 export const ContractProvider = () => {
+  const { chainId: chainIdHex } = useMoralis();
+  console.log(parseInt(chainIdHex));
   const [balance, setBalance] = useState("");
   const [currentAccount, setCurrentAccount] = useState("");
   const [withdrawValue, setWithdrawValue] = useState(balance);
@@ -23,21 +25,21 @@ export const ContractProvider = () => {
   const [text, setText] = useState("");
   const [notification, setNotification] = useState(false);
   console.log(notification);
-  const connectWallet = async () => {
-    try {
-      if (!ethereum) return alert("No Metamask Wallet Found");
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setCurrentAccount(accounts[0]);
-      alert("wallet Connected Successfully🚀.");
-    } catch (error) {
-      if (error.message.includes("rejected")) {
-        alert("You rejected the transaction");
-      }
-      console.log(error);
-    }
-  };
+  // const connectWallet = async () => {
+  //   try {
+  //     if (!ethereum) return alert("No Metamask Wallet Found");
+  //     const accounts = await ethereum.request({
+  //       method: "eth_requestAccounts",
+  //     });
+  //     setCurrentAccount(accounts[0]);
+  //     alert("wallet Connected Successfully🚀.");
+  //   } catch (error) {
+  //     if (error.message.includes("rejected")) {
+  //       alert("You rejected the transaction");
+  //     }
+  //     console.log(error);
+  //   }
+  // };
   const playerBalance = async () => {
     const contract = getSmartContract();
     const userBalance = await contract.getGamersWalletBalance();
@@ -54,7 +56,7 @@ export const ContractProvider = () => {
       setColor("green");
       setText("Your wallet was funded succesfully");
       setNotification(true);
-      setTimeout
+      setTimeout;
       location.href = location.href;
     } catch (error) {
       if (error) {
@@ -88,7 +90,7 @@ export const ContractProvider = () => {
   return (
     <ContractContext.Provider
       value={{
-        connectWallet,
+        // connectWallet,
         fundValue,
         fundPlayersWallet,
         balance,
