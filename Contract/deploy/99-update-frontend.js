@@ -8,8 +8,8 @@ const {
 module.exports = async () => {
   if (true) {
     console.log("updating frontend....");
-    updateContractAddress();
-    // updateAbi();
+    // updateContractAddress();
+    updateAbi();
     console.log("updated frontend....");
   }
 };
