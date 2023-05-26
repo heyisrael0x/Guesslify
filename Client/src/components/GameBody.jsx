@@ -9,6 +9,7 @@ import { Notification } from "./";
 
 const GameBody = () => {
   const { balance } = useContext(ContractContext);
+  console.log(balance);
   const [fundModal, setFundModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const parsedBalance = parseInt(balance) / Math.pow(10, 18);
@@ -45,7 +46,7 @@ const GameBody = () => {
                 <div className="w-10 h-10 rounded-full border-2 border-white flex justify-center items-center">
                   <SiEthereum fontSize={21} color="#fff" />
                 </div>
-                {/* <BsInfoCircle fontSize={17} color="#fff" /> */}
+                <BsInfoCircle fontSize={17} color="#fff" />
               </div>
               <div className="w-full flex flex-col items-center">
                 <div className="mb-3 flex flex-col justify-center items-center">

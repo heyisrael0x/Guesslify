@@ -3,16 +3,17 @@ import { useState, useContext } from "react";
 import { ContractContext } from "../context/SmartContractInteraction";
 
 const FundModal = ({ setFundModal }) => {
-  const { fundPlayersWallet, setFundValue, fundValue } =
+  const { fundGameWallet, setFundValue, fundValue } =
     useContext(ContractContext);
 
   const handleChange = (e) => {
     setFundValue(Math.max(Number(e.target.value), 0));
     console.log(fundValue);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    fundPlayersWallet();
+    console.log("Funding")
+    await fundGameWallet();
   };
   return (
     <>

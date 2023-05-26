@@ -2,4 +2,4 @@ import abi from "./abi.json";
 import address from "./address.json";
 
 export const contractAbi = abi;
-export const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"; // contractAddress goes in here
+export const contractAddress = address;
