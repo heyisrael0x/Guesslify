@@ -40,13 +40,13 @@ const Navbar = () => {
         {toogleMenu ? (
           <RxCross2
             fontSize={40}
-            className="cursor-pointer md:hidden flex z-10"
+            className="cursor-pointer md:hidden flex z-20"
             onClick={() => setToogleMenu(false)}
           />
         ) : (
           <HiMenuAlt3
             fontSize={40}
-            className="cursor-pointer md:hidden z-10"
+            className="cursor-pointer md:hidden z-20"
             onClick={() => setToogleMenu(true)}
           />
         )}

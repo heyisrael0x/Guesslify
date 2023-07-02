@@ -10,7 +10,7 @@ const Game = () => {
       <div className="w-screen gradient01">
         {/* <Notification color="green" text="A Successfull toast🚀." time="7" notificationState={notificationState} /> */}
         <Navbar />
-        <Web3Button />
+        {/* <Web3Button /> */}
         <ContractProvider />
         <Footer />
       </div>

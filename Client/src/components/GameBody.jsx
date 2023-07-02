@@ -12,6 +12,7 @@ const GameBody = () => {
   console.log(balance);
   const [fundModal, setFundModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
+  const [playerHistory, setPlayerHistory] = useState([]);
   const parsedBalance = parseInt(balance) / Math.pow(10, 18);
 
   const Input = ({ placeholder, name, type, value, handleChange }) => (
@@ -19,14 +20,14 @@ const GameBody = () => {
       placeholder={placeholder}
       type={type}
       value={value}
-      step="0.0001"
+      step="0.001"
       // onChange={(e) => handleChange(e, name)}
-      className="my-2 w-full rounded-xl p-2 outline-none text-white text-sm white-glassmorphism"
+      className="my-2 w-full !rounded-lg p-2 outline-none text-white text-sm white-glassmorphism"
     />
   );
   const handleSubmit = (e) => {
-    const { amount } = formData;
     e.preventDefault();
+    const { amount } = formData;
   };
   return (
     <>
@@ -77,13 +78,15 @@ const GameBody = () => {
                 </div>
               </div>
             </div>
-            <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center white-glassmorphism"></div>
+            <div className="p-4 sm:w-96 w-full h-[232px] flex flex-col justify-start items-center white-glassmorphism">
+              <h4 className="text-white">Your History</h4>
+            </div>
           </div>
 
           <div className="flex flex-col flex-1 items-center justify-start w-full mt-10">
-            <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-              <Input
-                placeholder="Minimum: 0.001"
+            <div className="p-5 sm:w-96 w-full h-[380px] flex flex-col justify-start items-center !bg-[#1C1C1C white-glassmorphism">
+              {/* <Input
+                placeholder="Minimum: 0.01 ETH"
                 name="amount"
                 type="number"
                 handleChange=""
@@ -95,7 +98,7 @@ const GameBody = () => {
                 className="py-2 px-7 mx-4 rounded-lg cursor-pointer hover:bg-[#ffff] white-glassmorphism hover:text-gray-900 text-white font-semibold"
               >
                 Start Game
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
