@@ -22,7 +22,8 @@ contract Guess is VRFConsumerBaseV2 {
     /* Type declarations */
     enum playerGameState {
         GAMEENDED,
-        GAMESTARTED
+        GAMESTARTED,
+        GAMEISREQUESTINGNUMBER
     }
 
     /* state variables */
@@ -148,7 +149,7 @@ contract Guess is VRFConsumerBaseV2 {
         }
         activeGamers.push(msg.sender);
         numberofTrialsUsed[msg.sender] = i_numberOfTrials;
-        gameState[msg.sender] = playerGameState.GAMESTARTED;
+        gameState[msg.sender] = playerGameState.GAMEISREQUESTINGNUMBER;
         gamersWalletBalance[msg.sender] -= msg.value;
         gameBalance += msg.value;
         startGameValue[msg.sender] += msg.value;
@@ -171,6 +172,7 @@ contract Guess is VRFConsumerBaseV2 {
         address requester = requestIdToAddress[requestId];
         uint256 luckyNumber = randomWords[0] % i_randomNumberRange;
         i_luckyNumber[requester] = luckyNumber + 1;
+        gameState[requester] = playerGameState.GAMESTARTED;
     }
 
     function verifyRandomNumber(uint256 randomNumber) public returns (bool) {
