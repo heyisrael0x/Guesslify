@@ -6,6 +6,7 @@ import { FundModal } from "./";
 import { WithdrawModal } from "./";
 import { ContractContext } from "../context/SmartContractInteraction";
 import { Notification } from "./";
+import { Link } from "react-router-dom";
 
 const GameBody = () => {
   const { balance } = useContext(ContractContext);
@@ -79,26 +80,59 @@ const GameBody = () => {
               </div>
             </div>
             <div className="p-4 sm:w-96 w-full h-[232px] flex flex-col justify-start items-center white-glassmorphism">
-              <h4 className="text-white">Your History</h4>
+              <h4 className="text-white">Game</h4>
+              <form className="flex flex-col items-center justify-center">
+                <input
+                  placeholder="Minimum: 0.01 ETH"
+                  name="amount"
+                  type="number"
+                  handleChange=""
+                  className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] bg-transparent text-white text-[14px] placeholder:text-[#A6A8AD] rounded-[10px] sm:min-w-[300px]"
+                />
+                <div className="h-[1px] w-full bg-gray-400 my-2"></div>
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="flex flex-row justify-center items-center my-2 white-glassmorphism p-3 px-5 rounded-lg cursor-pointer"
+                >
+                  <p className="text-white text-base font-meduim font-epilogue">
+                    Start Game
+                  </p>
+                </button>
+              </form>
             </div>
           </div>
 
           <div className="flex flex-col flex-1 items-center justify-start w-full mt-10">
-            <div className="p-5 sm:w-96 w-full h-[380px] flex flex-col justify-start items-center !bg-[#1C1C1C white-glassmorphism">
-              {/* <Input
-                placeholder="Minimum: 0.01 ETH"
-                name="amount"
-                type="number"
-                handleChange=""
-              />
-              <div className="h-[1px] w-full bg-gray-400 my-2"></div>
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="py-2 px-7 mx-4 rounded-lg cursor-pointer hover:bg-[#ffff] white-glassmorphism hover:text-gray-900 text-white font-semibold"
-              >
-                Start Game
-              </button> */}
+            <div className="px-5 pt-5 sm:w-96 w-full h-[380px] flex flex-col justify-star items-center white-glassmorphism">
+              <div className="flex flex-col h-[90%] w-full">
+                <h4 className="text-white text-center">Your History</h4>
+                <div
+                  className={`h-full flex flex-col text-white items-center ${
+                    playerHistory.length == 0 && "justify-center"
+                  }`}
+                >
+                  {playerHistory.length > 0 ? (
+                    <p>History are {playerHistory.length}</p>
+                  ) : (
+                    <>
+                      <p className="text-[#A6A8AD] text-[14px]">
+                        No Play History
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="h-[1px] w-full bg-gray-400 mt-2"></div>
+              <div className="flex flex-row w-full justify-center items-center">
+                <Link to="/leaderboard">
+                  <button className="flex flex-row justify-center items-center my-2 white-glassmorphism p-3 px-5 rounded-lg cursor-pointer">
+                    <p className="text-white text-base font-meduim font-epilogue">
+                      See Top Players
+                    </p>
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
