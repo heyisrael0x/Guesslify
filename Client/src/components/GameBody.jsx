@@ -28,7 +28,8 @@ const GameBody = () => {
   );
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { amount } = formData;
+    alert("Started")
+    // const { amount } = formData;
   };
   return (
     <>
@@ -53,8 +54,8 @@ const GameBody = () => {
               <div className="w-full flex flex-col items-center">
                 <div className="mb-3 flex flex-col justify-center items-center">
                   <p className="text-white font-light text-sm -m-1">Balance:</p>
-                  <p className="text-white font-semibold text-xl">
-                    {Number(parsedBalance) + Number(0.0)}ETH
+                  <p className="text-white font-semibold text-xl truncate">
+                    {Number(parsedBalance) + Number(0.0)} ETH
                   </p>
                 </div>
                 <div className="flex">
@@ -79,20 +80,20 @@ const GameBody = () => {
                 </div>
               </div>
             </div>
-            <div className="p-4 sm:w-96 w-full h-[232px] flex flex-col justify-start items-center white-glassmorphism">
+            <div className="p-4 sm:w-96 w-full h-[232px] flex flex-col justify-center items-center white-glassmorphism">
               <h4 className="text-white">Game</h4>
-              <form className="flex flex-col items-center justify-center">
+              <form className="flex flex-col items-center justify-center" onSubmit={handleSubmit}>
                 <input
                   placeholder="Minimum: 0.01 ETH"
                   name="amount"
                   type="number"
                   handleChange=""
-                  className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] bg-transparent text-white text-[14px] placeholder:text-[#A6A8AD] rounded-[10px] sm:min-w-[300px]"
+                  className="py-[15px] sm:px-[25px] px-[15px] my-2 outline-none border-[1px] bg-transparent text-white text-[14px] placeholder:text-[#A6A8AD] rounded-[10px] sm:min-w-[300px]"
                 />
                 <div className="h-[1px] w-full bg-gray-400 my-2"></div>
                 <button
-                  type="button"
-                  onClick={handleSubmit}
+                  type="submit"
+                  // onClick={handleSubmit}
                   className="flex flex-row justify-center items-center my-2 white-glassmorphism p-3 px-5 rounded-lg cursor-pointer"
                 >
                   <p className="text-white text-base font-meduim font-epilogue">
